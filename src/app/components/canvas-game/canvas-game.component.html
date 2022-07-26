@@ -1,0 +1,10 @@
+<div class="flex flex-col py-24 justify-center items-center">
+  <div class="text-center flex flex-row flex-wrap text-center max-w-5xl mx-auto">
+    <p *ngFor="let words of wordsToSearchArray" [ngClass]="foundWordArray.includes(words) ? 'line-through': ''"
+       class="p-3">
+      {{words}}
+    </p>
+  </div>
+  <canvas #canvas height="400" width="400" (mousedown)="mouseDown($event)" (mousemove)="selection($event)"
+          (mouseup)="mouseUp($event)"  class="cursor-pointer"></canvas>
+</div>
