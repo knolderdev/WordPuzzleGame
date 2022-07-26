@@ -201,18 +201,18 @@ export class CanvasGameComponent implements OnInit, AfterViewInit {
       let newCurrentY = this.getMousePosition(canvasElem, event)[0];
       let newRowAllowed = newCurrentX != this.currentX;
       let newColAllowed = newCurrentY != this.currentY;
-      if(this.rowAllowed){
-        if(!newRowAllowed){
-          this.colAllowed = false;
-        }
-      }
-      if(this.colAllowed){
-        if(!newColAllowed){
-          this.rowAllowed = false;
-        }
-      }
-      if(this.rowAllowed){
-        if(newCurrentX)
+      if (newCurrentY != this.currentY || newCurrentX != this.currentX) {
+        this.selectedWordsArray.push(this.getSelectedLetter(event));
+        this.currentX = newCurrentX;
+        this.currentY = newCurrentY;
+        this.tempselectedIndexArrayObj.forEach((obj) => {
+          if (obj.row === this.currentX) {
+            if (!obj.col.includes(this.currentY)) {
+              obj.col.push(this.currentY);
+            }
+          }
+        });
+        this.draw(canvasElem, event);
       }
       console.log('this.currentX ===>', this.currentX);
       console.log('this.currentY ===>', this.currentY);
