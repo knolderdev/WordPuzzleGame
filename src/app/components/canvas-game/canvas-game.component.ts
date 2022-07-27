@@ -12,8 +12,9 @@ export class CanvasGameComponent implements OnInit, AfterViewInit {
   letterGrid: LetterGrid | null;
   inputWords: string;
   leftClicked = false;
-  rowAllowed = false;
-  colAllowed = false;
+  firstDrag = false;
+  rowChangeAllowed = false;
+  colChangeAllowed = false;
   selectedWordsArray: any = [];
   currentX !: number;
   currentY !: number;
@@ -201,6 +202,31 @@ export class CanvasGameComponent implements OnInit, AfterViewInit {
       let newCurrentY = this.getMousePosition(canvasElem, event)[0];
       let newRowAllowed = newCurrentX != this.currentX;
       let newColAllowed = newCurrentY != this.currentY;
+      let replacementWorkflowRun = false;
+      console.log('this.tempselectedIndexArrayObj', this.tempselectedIndexArrayObj)
+      console.log('this.checkIfSecondMoveMent()  ===>', this.checkIfSecondMoveMent());
+      if(this.checkIfSecondMoveMent()){
+        if(newColAllowed){
+          this.rowChangeAllowed = false;
+        }
+        if(newRowAllowed){
+          this.colChangeAllowed = false;
+        }
+        console.log('this.colChangeAllowed ===>', this.colChangeAllowed);
+        console.log('this.rowChangeAllowed ===>', this.rowChangeAllowed);
+      }
+      else{
+        if(newRowAllowed){
+          if(!this.rowChangeAllowed){
+            replacementWorkflowRun = true;
+          }
+        }
+        if(newColAllowed){
+          if(!this.colChangeAllowed){
+            replacementWorkflowRun = true;
+          }
+        }
+      }
       if (newCurrentY != this.currentY || newCurrentX != this.currentX) {
         this.selectedWordsArray.push(this.getSelectedLetter(event));
         this.currentX = newCurrentX;
@@ -214,9 +240,28 @@ export class CanvasGameComponent implements OnInit, AfterViewInit {
         });
         this.draw(canvasElem, event);
       }
-      console.log('this.currentX ===>', this.currentX);
-      console.log('this.currentY ===>', this.currentY);
+      if(replacementWorkflowRun){
+        this.leftClicked = false;
+        this.replacementOfLetterIfNotFound();
+        this.setInitialTempSelectedArrayObj();
+      }
+      // if(this.rowAllowed != newRowAllowed || this.colAllowed != newColAllowed){
+      //   this.leftClicked = false;
+      //   this.replacementOfLetterIfNotFound();
+      //   this.setInitialTempSelectedArrayObj();
+      // }
     }
+  }
+
+  checkIfSecondMoveMent(){
+    let first = false;
+    this.tempselectedIndexArrayObj.forEach((obj) =>{
+      if(obj.col.length === 1){
+        first = true;
+        return
+      }
+    });
+    return first;
   }
 
   ifRowAllowed(x: number){
@@ -228,8 +273,8 @@ export class CanvasGameComponent implements OnInit, AfterViewInit {
   }
 
   mouseDown(event: any) {
-    this.rowAllowed = true;
-    this.colAllowed = true;
+    this.rowChangeAllowed = true;
+    this.colChangeAllowed = true;
     this.ctx?.save();
     this.selectedWordsArray = [];
     this.leftClicked = true;
