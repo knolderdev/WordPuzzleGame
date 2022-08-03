@@ -37,32 +37,16 @@ export class WordPacker {
         rowIncrement: -1,
         columnIncrement: 0
       },
-      { // North-East.
-        rowIncrement: -1,
-        columnIncrement: 1
-      },
       { // East.
         rowIncrement: 0,
-        columnIncrement: 1
-      },
-      { // South-East.
-        rowIncrement: 1,
         columnIncrement: 1
       },
       { // South.
         rowIncrement: 1,
         columnIncrement: 0
       },
-      { // South-West.
-        rowIncrement: 1,
-        columnIncrement: -1
-      },
       { // West.
         rowIncrement: 0,
-        columnIncrement: -1
-      },
-      { // North-West.
-        rowIncrement: -1,
         columnIncrement: -1
       }
     ];
@@ -274,8 +258,8 @@ export class WordPacker {
   ) : boolean {
 
     var rowIndex = rowStart;
-    var columnIndex = columnStart;
-
+    var columnIndex 
+= columnStart;
     // Before we mutate the letter-grid, let's see if the collection of letters will
     // fit on the letter-grid using the given direction.
     for ( var letter of letters ) {
