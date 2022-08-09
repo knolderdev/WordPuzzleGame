@@ -253,7 +253,7 @@ export class CanvasGameComponent implements OnInit, AfterViewInit {
     }
   }
 
-  checkIfSecondMoveMent(){
+/*  checkIfSecondMoveMent(){
     let first = false;
     this.tempselectedIndexArrayObj.forEach((obj) =>{
       if(obj.col.length === 1){
@@ -261,6 +261,25 @@ export class CanvasGameComponent implements OnInit, AfterViewInit {
         return
       }
     });
+    return first;
+  }*/
+
+
+  checkIfSecondMoveMent(){
+    let first = false;
+    let count = 0;
+    this.tempselectedIndexArrayObj.forEach((obj) => {
+      if(obj.col.length === 1){
+        count++;
+      }
+    });
+    console.log("---count----->" + count)
+    if (count > 1) {
+        return false;
+    }
+    if (count == 1) {
+        return true;
+    }
     return first;
   }
 
